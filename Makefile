@@ -7,7 +7,7 @@ TARGET = a.out
 OBJS := $(shell ls $(SRC_DIR)/*.c)
 
 CFLAGS += $(foreach inc, $(INC_DIR), -I$(inc))
-CFLAGS += -g
+CFLAGS += -g -Wall -DDEBUG
 OBJS_O := $(foreach obj, $(OBJS), $(obj:.c=.o))
 
 $(SRC_DIR)/%.o : $(SRC_DIR)/%.c $(INC_DIR)/%.h $(INC_DIR)/main.h

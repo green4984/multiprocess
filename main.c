@@ -1,4 +1,5 @@
 #include "main.h"
+#include "server.h"
 
 int main(int argc, char *argv[])
 {
@@ -7,10 +8,17 @@ int main(int argc, char *argv[])
 	if ( argc != 1 ) {
 		proc_total = atoi(argv[1]);
 		if ( proc_total == 0 ) {
-			perror("please write vaild int value");
-			exit(EXIT_FAILURE);
+			exit_err("please write vaild int value\n");
 		}
 	}
 
-	create_multiprocess(proc_total);
+	start_server();
+	//create_multiprocess(proc_total);
+	return 0;
+}
+
+void exit_err(const char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
 }

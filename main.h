@@ -11,4 +11,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern void exit_err(const char *str);
+
 #endif
