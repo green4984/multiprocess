@@ -4,11 +4,14 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+back_output	server.c	/^static void back_output()$/;"	f	file:
 begin_listen	server.c	/^static void begin_listen(int fd, int backlog)$/;"	f	file:
 bind_sockaddr	server.c	/^static void bind_sockaddr(int fd, struct sockaddr_in *srv)$/;"	f	file:
 create_multiprocess	process.c	/^int create_multiprocess(int proc_num, void (*func)(void))$/;"	f
 create_socket	server.c	/^static int create_socket()$/;"	f	file:
 exit_err	main.c	/^void exit_err(const char *str)$/;"	f
 main	main.c	/^int main(int argc, char *argv[])$/;"	f
+set_output	server.c	/^static void set_output()$/;"	f	file:
 set_sockaddr	server.c	/^static void set_sockaddr(struct sockaddr_in *srv)$/;"	f	file:
 start_server	server.c	/^void start_server()$/;"	f
+stdout_fileno	server.c	/^static int stdout_fileno;$/;"	v	file:

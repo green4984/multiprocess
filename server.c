@@ -1,5 +1,6 @@
 #include "server.h"
 
+static int stdout_fileno;
 static int create_socket()
 {
 	const int opt = 1;
@@ -46,8 +47,26 @@ static void begin_listen(int fd, int backlog)
 	printf("start listening !\n");
 #endif
 }
+static void set_output()
+{
+	int fd;
+	stdout_fileno = dup(STDOUT_FILENO);
+	if ( (fd = open("srv.log", O_CREAT |O_SYNC| O_RDWR | O_APPEND, 0777)) == -1)
+		exit_err("open srv.log error");
+	close(STDOUT_FILENO);
+	if ( dup2(fd, STDOUT_FILENO) == -1 )
+		exit_err("dup2 STDOUT_FILENO error");
+	printf("set_output ok!");
+}
+static void back_output()
+{
+	if (dup2(stdout_fileno, STDOUT_FILENO) == -1) {
+		exit_err("dup2 stdout_fileno error");
+	}
+}
 void start_server()
 {
+	set_output();
 	int newfd;
 	int fd = create_socket();
 	socklen_t len = sizeof(struct sockaddr);
@@ -65,4 +84,5 @@ void start_server()
 		printf("get msg from %s\n", inet_ntoa(srv.sin_addr));
 		close(newfd);
 	}
+	back_output();
 }

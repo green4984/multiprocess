@@ -10,6 +10,6 @@
 #include <sys/wait.h>
 #include <arpa/inet.h>
 
-#define LISTEN_PORT 1334
+#define LISTEN_PORT 10334
 extern void start_server();
 #endif
