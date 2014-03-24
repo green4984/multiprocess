@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+	int ret;
 	int proc_total = 10; /* default multiprocess max value */
 
 	if ( argc != 1 ) {
@@ -12,7 +13,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	start_server();
+	//if ( (ret = fork()) < 0 ) {
+	//	exit_err("fork error");
+	//} else if ( ret == 0 ) { /* child */
+		start_server();
+	//} else { /* parent */
+	//	sleep(1);
+	//	//start_client();
+	//}
 	//create_multiprocess(proc_total);
 	return 0;
 }
