@@ -13,15 +13,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	//if ( (ret = fork()) < 0 ) {
-	//	exit_err("fork error");
-	//} else if ( ret == 0 ) { /* child */
-		start_server();
-	//} else { /* parent */
-	//	sleep(1);
-	//	//start_client();
-	//}
-	//create_multiprocess(proc_total);
+	start_server();
 	return 0;
 }
 
