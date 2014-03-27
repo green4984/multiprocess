@@ -7,11 +7,20 @@
 back_output	server.c	/^static void back_output()$/;"	f	file:
 begin_listen	server.c	/^static void begin_listen(int fd, int backlog)$/;"	f	file:
 bind_sockaddr	server.c	/^static void bind_sockaddr(int fd, struct sockaddr_in *srv)$/;"	f	file:
-create_multiprocess	process.c	/^int create_multiprocess(int proc_num, void (*func)(void))$/;"	f
+close_multiprocess	process.c	/^void close_multiprocess()$/;"	f
+create_multiprocess	process.c	/^int create_multiprocess(int proc_num, void (*func)(int fd))$/;"	f
 create_socket	server.c	/^static int create_socket()$/;"	f	file:
+do_childprocess	server.c	/^static void do_childprocess(int fd)$/;"	f	file:
+do_sigint	server.c	/^static void do_sigint(int signo)$/;"	f	file:
 exit_err	main.c	/^void exit_err(const char *str)$/;"	f
+get_sleep_process	process.c	/^struct proc_t *get_sleep_process()$/;"	f
+init_process	process.c	/^static void init_process(int i, int fd)$/;"	f	file:
 main	main.c	/^int main(int argc, char *argv[])$/;"	f
+proc	process.c	/^static struct proc_t *proc  = NULL;$/;"	v	typeref:struct:proc_t	file:
+recv_fd	process.c	/^int recv_fd(int sock_fd)$/;"	f
+send_fd	process.c	/^void send_fd(int sock_fd, int send_fd)$/;"	f
 set_output	server.c	/^static void set_output()$/;"	f	file:
 set_sockaddr	server.c	/^static void set_sockaddr(struct sockaddr_in *srv)$/;"	f	file:
-start_server	server.c	/^void start_server()$/;"	f
+srv_num	process.c	/^static int srv_num = 0;$/;"	v	file:
+start_server	server.c	/^void start_server(int srv_num)$/;"	f
 stdout_fileno	server.c	/^static int stdout_fileno;$/;"	v	file:

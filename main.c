@@ -3,7 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-	int ret;
 	int proc_total = 10; /* default multiprocess max value */
 
 	if ( argc != 1 ) {
@@ -13,7 +12,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	start_server();
+	start_server(proc_total);
 	return 0;
 }
 

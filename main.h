@@ -12,6 +12,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/socket.h>
 
 extern void exit_err(const char *str);
 

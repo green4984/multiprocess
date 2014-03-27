@@ -51,11 +51,12 @@ static void set_output()
 {
 	int fd;
 	stdout_fileno = dup(STDOUT_FILENO);
-	if ( (fd = open("srv.log", O_CREAT |O_SYNC| O_RDWR | O_APPEND, 0777)) == -1)
+	if ( (fd = open("srv.log", O_CREAT | O_RDWR | O_APPEND, 0664)) == -1)
 		exit_err("open srv.log error");
 	close(STDOUT_FILENO);
 	if ( dup2(fd, STDOUT_FILENO) == -1 )
 		exit_err("dup2 STDOUT_FILENO error");
+	setbuf(stdout, NULL);
 	printf("set_output ok!");
 }
 static void back_output()
@@ -64,15 +65,36 @@ static void back_output()
 		exit_err("dup2 stdout_fileno error");
 	}
 }
-void start_server()
+static void do_sigint(int signo)
 {
-	set_output();
+	//signal(SIGINT, SIG_DFL);
+	close_multiprocess();
+	printf("close server now!\n\n");
+	exit(EXIT_SUCCESS);
+}
+static void do_childprocess(int fd)
+{
 	int newfd;
+	while (1) {
+		printf("pid %d wait for parent\n", getpid());
+		if ((newfd = recv_fd(fd)) == -1)
+			exit_err("read_fd");
+		printf("pid %d get newfd %d from ppid %d\n", getpid(), newfd, getppid());
+		sleep(1);
+	}
+}
+void start_server(int srv_num)
+{
+	signal(SIGINT, do_sigint);
+	//set_output();
+	int newfd;
+	struct proc_t *proc;
 	int fd = create_socket();
 	socklen_t len = sizeof(struct sockaddr);
 	struct sockaddr_in srv;
 	set_sockaddr(&srv);
 	bind_sockaddr(fd, &srv);
+	create_multiprocess(srv_num, do_childprocess);
 	begin_listen(fd, 20);
 	while (1) {
 #ifdef DEBUG
@@ -81,7 +103,19 @@ void start_server()
 		if ((newfd = accept(fd, (struct sockaddr *)&srv, &len)) == -1) {
 			exit_err("accept error");
 		}
-		printf("get msg from %s\n", inet_ntoa(srv.sin_addr));
+		do {
+			proc = get_sleep_process();
+			if (proc == NULL) {
+				printf("server is full, please waiting for\n");
+				sleep(1);
+			} else {
+				break;
+			}
+		} while(1);
+		proc -> flag = 1;
+		printf("get msg from %s newfd is %d \nsend it to child\n", 
+				inet_ntoa(srv.sin_addr), newfd);
+		send_fd(proc -> fd, newfd);
 		close(newfd);
 	}
 	back_output();
